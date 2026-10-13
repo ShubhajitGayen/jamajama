@@ -15,7 +15,7 @@ body {
   font-family: Georgia, "Times New Roman", serif;
   background: var(--iv);
   color: var(--ink);
-   min-height: 900vh;
+   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
