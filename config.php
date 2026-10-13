@@ -9,11 +9,7 @@ define('DB_PASS', getenv('DB_PASS') ?: 'AVNS_eFFhyB3MMLlTc5qgdQB');
 
 define('DB_USER', getenv('DB_USER') ?: 'avnadmin');
 
-$db_pass = getenv('DB_PASS');
-if ($db_pass === false || $db_pass === '') {
-    throw new RuntimeException('DB_PASS is not configured. Set it in your environment before running the app.');
-}
-define('DB_PASS', $db_pass);
+
 
 define('WHATSAPP', getenv('WHATSAPP') ?: '919876543210');
 define('PHONE', getenv('PHONE') ?: '+91 98765 43210');
