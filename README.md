@@ -1,9 +1,15 @@
 # Jama Jama Tour & Travels (PHP + MySQL)
 1. Create DB + tables: `mysql -u root -p < schema.sql` (needs MySQL 5.7+/MariaDB 10.2+).
 2. For an existing database, back it up and run the migrations that have not yet been applied. The package-image migration is `mysql --default-character-set=utf8mb4 -u root -p jamajama < migrations/20261013_add_package_image.sql` (run once; it adds nullable `packages.image_path`). Also apply the translations and gallery migrations if needed: `mysql --default-character-set=utf8mb4 -u root -p jamajama < migrations/20261013_add_content_translations.sql` and `mysql --default-character-set=utf8mb4 -u root -p jamajama < migrations/20261013_add_gallery_items.sql`. Do not run a migration if its columns/table already exist.
-3. Edit `config.php` with your DB credentials, WhatsApp number, phone, email.
+3. For local hosting, edit `config.php` with your DB credentials, WhatsApp number, phone, and email. For Render, set database credentials as service environment variables instead.
 4. Create an admin: `php create_admin.php yourname 'a-long-password'`.
 5. Make `uploads/` writable by the web server (755/775, never 777); the application creates `uploads/packages/` as needed. Apache: `.htaccess` blocks script execution there. On Nginx add: `location ^~ /uploads/ { location ~ \.php$ { return 403; } }`.
 6. Video limit: `.user.ini` asks for 200 MB; hosts may override. The admin shows the real server limit and gives a clear error if exceeded.
 7. Visit `/admin/login.php`. Manage package details and images, including Bengali/Hindi package text, at `/admin/packages.php`; add translated banner copy in `/admin/banners.php`; upload and manage gallery images/videos at `/admin/gallery.php`.
 Use HTTPS in production.
+
+## Deploy on Render with Docker
+1. Push this project to a Git repository and create a **Web Service** on Render using the **Docker** runtime. Render builds the root `Dockerfile`; leave the Render Start Command empty so the image's `CMD` starts Apache in the foreground. The container listens on Render's `PORT` (default `10000`).
+2. Set `DB_HOST`, `DB_NAME`, `DB_USER`, and `DB_PASS` in the Render service environment to point to a reachable MySQL database. Do not use `localhost` for a separate managed database. Create the database and apply `schema.sql` for a new install, or back up an existing database and apply any outstanding migrations before deploying.
+3. Configure a **persistent disk** mounted at `/var/www/html/uploads` if uploaded images, videos, and banners must survive redeploys. On its first start the container copies the bundled uploads into the disk without overwriting existing files. Without a persistent disk, uploads on Render's container filesystem are temporary and can be lost on deploy or instance replacement. Persistent disks require a Render plan that supports them.
+4. The image enables the PHP `mbstring` and `pdo_mysql` extensions, allows 200 MB files and 210 MB POST bodies, and serves the existing `uploads/.htaccess` protections through Apache. Confirm any proxy/client upload limits also allow the site's video upload size.
