@@ -3,7 +3,7 @@
 // This repository version intentionally contains no secret credentials.
 
 define('DB_HOST', getenv('DB_HOST') ?: 'jamajama-jamajama.i.aivencloud.com');
-define('DB_NAME', getenv('DB_NAME') ?: 'jamajama');
+define('DB_NAME', getenv('DB_NAME') ?: 'defaultdb');
 define('DB_USER', getenv('DB_USER') ?: 'avnadmin');
 
 $db_pass = getenv('DB_PASS');
