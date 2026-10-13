@@ -2,12 +2,12 @@
 // Copy this file to config.php in production, or set DB_* variables in your environment.
 // This repository version intentionally contains no secret credentials.
 
-define('DB_HOST', getenv('DB_HOST') ?: 'jamajama-jamajama.i.aivencloud.com');
-define('DB_PORT', getenv('DB_PORT') ?: '16791');
-define('DB_NAME', getenv('DB_NAME') ?: 'jamajama');
-define('DB_PASS', getenv('DB_PASS') ?: 'AVNS_eFFhyB3MMLlTc5qgdQB');
+define('DB_HOST','jamajama-jamajama.i.aivencloud.com');
+define('DB_PORT','16791');
+define('DB_NAME','jamajama');
+define('DB_PASS','AVNS_eFFhyB3MMLlTc5qgdQB');
 
-define('DB_USER', getenv('DB_USER') ?: 'avnadmin');
+define('DB_USER','avnadmin');
 
 
 
