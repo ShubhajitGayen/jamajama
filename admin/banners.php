@@ -7,9 +7,8 @@ function fields(): array {
     foreach (['title' => 150, 'subtitle' => 200, 'description' => 1000, 'button_text' => 60] as $field => $limit) {
         $value = trim($_POST[$field] ?? '');
         if (mb_strlen($value) > $limit) throw new RuntimeException('One of the banner text fields is too long.');
-        $text[$field . $suffix] = $value !== '' ? $value : null;
+        $text[$field . $suffix] = $value !== '' ? $value : ($field === 'title' && $language === 'en' ? '' : null);
     }
-    if ($language === 'en' && !$text['title']) throw new RuntimeException('Title is required (max 150 characters).');
     $url = trim($_POST['button_url'] ?? '');
     if (!valid_url($url)) throw new RuntimeException('Button URL must be a page path, #section or full http(s) link.');
     return [$text, $url ?: null];
@@ -19,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') { csrf_check(); safe_run(function () 
     $ids = fn() => $pdo->query('SELECT id FROM hero_banners ORDER BY display_order, id')->fetchAll(PDO::FETCH_COLUMN);
     if ($a === 'add') {
         [$text, $bu] = fields();
-        if (empty($text['title'])) throw new RuntimeException('English banner title is required when creating a banner.');
         if (($_SESSION['content_language'] ?? 'en') !== 'en') throw new RuntimeException('Switch to English to create a banner. You can add translations after creating it.');
         if (!has_file('image')) throw new RuntimeException('Choose a banner image.');
         $img = save_upload($_FILES['image'], 'banner');
@@ -59,8 +57,8 @@ require __DIR__ . '/_head.php';
 $list = $pdo->query('SELECT * FROM hero_banners ORDER BY display_order, id')->fetchAll();
 function bform(?array $b, string $suffix, string $language): void { ?>
 <p>Editing <?= e($language) ?> content. Blank translated fields use the English text on the public site.</p>
-<?php foreach (['title' => 'Title', 'subtitle' => 'Subtitle', 'description' => 'Description', 'button_text' => 'Button text'] as $field => $label): ?>
-<label><?= e($label) ?></label><?php if ($field === 'description'): ?><textarea name="<?= e($field) ?>" rows="2"><?= e($b[$field . $suffix] ?? '') ?></textarea><?php else: ?><input type="text" name="<?= e($field) ?>" maxlength="<?= $field === 'title' ? 150 : ($field === 'subtitle' ? 200 : 60) ?>" value="<?= e($b[$field . $suffix] ?? '') ?>" <?= $field === 'title' && $suffix === '' ? 'required' : '' ?>><?php endif; ?>
+<?php foreach (['title' => 'Title (optional)', 'subtitle' => 'Subtitle', 'description' => 'Description', 'button_text' => 'Button text'] as $field => $label): ?>
+<label><?= e($label) ?></label><?php if ($field === 'description'): ?><textarea name="<?= e($field) ?>" rows="2"><?= e($b[$field . $suffix] ?? '') ?></textarea><?php else: ?><input type="text" name="<?= e($field) ?>" maxlength="<?= $field === 'title' ? 150 : ($field === 'subtitle' ? 200 : 60) ?>" value="<?= e($b[$field . $suffix] ?? '') ?>"><?php endif; ?>
 <?php endforeach; ?>
 <label>Button destination</label><input type="text" name="button_url" list="dest" value="<?= e($b['button_url'] ?? '') ?>" placeholder="packages.php">
 <datalist id="dest"><option value="packages.php">Packages</option><option value="index.php#contact">Contact</option><option value="gallery.php">Gallery</option><option value="about.php">About Us</option></datalist>
@@ -74,7 +72,7 @@ function bform(?array $b, string $suffix, string $language): void { ?>
 <?php else: ?><div class="box"><p>Switch the editing language to English to create a banner. Then select Bengali or Hindi to add its translation.</p></div><?php endif; ?>
 <div class="box"><h2>Banners (shown in this order)</h2><?php if (!$list): ?><p>No banners yet. Add one above.</p><?php endif; ?>
 <?php foreach ($list as $b): ?><div class="item"><img src="../<?= e($b['image_path']) ?>" alt="">
-<div style="flex:1"><b>#<?= (int)$b['display_order'] ?> · <?= e($b['title']) ?></b> <span class="tag <?= $b['is_active'] ? 'on' : '' ?>"><?= $b['is_active'] ? 'Active' : 'Inactive' ?></span>
+<div style="flex:1"><b>#<?= (int)$b['display_order'] ?> · <?= e($b['title'] ?: 'Untitled banner') ?></b> <span class="tag <?= $b['is_active'] ? 'on' : '' ?>"><?= $b['is_active'] ? 'Active' : 'Inactive' ?></span>
 <p><?= e($b['subtitle']) ?> <?= $b['button_text'] ? '· Button: ' . e($b['button_text']) . ' → ' . e($b['button_url']) : '' ?></p>
 <form class="inl acts" method="post"><?= csrf_field() ?><input type="hidden" name="id" value="<?= (int)$b['id'] ?>">
 <button name="action" value="first" class="gray">Show first</button><button name="action" value="up" class="gray">↑ Up</button><button name="action" value="down" class="gray">↓ Down</button>

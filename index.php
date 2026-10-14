@@ -27,7 +27,7 @@ require __DIR__ . '/inc/header.php'; ?>
                     style="background-image:url('<?= e($b['image_path']) ?>')">
                     <div class="slide-in"><?php if (localized_text($b, 'subtitle')): ?><p class="sub">
                                 <?= e(localized_text($b, 'subtitle')) ?></p><?php endif; ?>
-                        <h2><?= e(localized_text($b, 'title')) ?></h2>
+                        <?php if (localized_text($b, 'title')): ?><h2><?= e(localized_text($b, 'title')) ?></h2><?php endif; ?>
                         <?php if (localized_text($b, 'description')): ?><p><?= e(localized_text($b, 'description')) ?></p>
                         <?php endif; ?>
                         <?php if (localized_text($b, 'button_text')): ?><a class="btn gold"
