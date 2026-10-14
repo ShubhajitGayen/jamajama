@@ -14,6 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['tries'] = ($_SESSION['tries'] ?? 0) + 1; $_SESSION['last_try'] = time(); $err = 'Incorrect username or password.';
     }
 }
-?><!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin login</title><link rel="stylesheet" href="../assets/style.css"></head>
+?><!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin login</title><link rel="stylesheet" href="../assets/style.css"></head>
 <body><div class="adm" style="max-width:380px"><h1>Admin login</h1><?php if ($err): ?><p class="msg"><?= e($err) ?></p><?php endif; ?>
 <form class="box" method="post"><?= csrf_field() ?><label>Username</label><input type="text" name="username" required autofocus><label>Password</label><input type="password" name="password" required><p><button>Log in</button></p></form></div></body></html>
