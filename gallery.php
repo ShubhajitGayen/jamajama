@@ -1,6 +1,6 @@
 <?php require_once __DIR__ . '/inc/bootstrap.php';
 $items = gallery_items(db());
-$pageTitle = t('Gallery – Jama Jama Tour & Travels');
+$pageTitle = t('Gallery – Zam Zam Tour & Travels');
 require __DIR__ . '/inc/header.php'; ?>
 <main class="wrap"><h1 class="h"><?= e(t('Gallery')) ?></h1>
 <?php if (!$items): ?><p class="muted"><?= e(t('Gallery items will appear here soon.')) ?></p><?php endif; ?>

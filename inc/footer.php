@@ -1,4 +1,4 @@
-<footer id="contact" class="foot"><div><span class="logo">☪</span> <b>Jama Jama</b><p><?= e(t('Tour & Travels')) ?><br><?= e(t('Your Journey to the Holy Lands')) ?></p></div>
+<footer id="contact" class="foot"><div><span class="logo">☪</span> <b><?= e(t('Zam Zam')) ?></b><p><?= e(t('Tour & Travels')) ?><br><?= e(t('Your Journey to the Holy Lands')) ?></p></div>
 <div><h4><?= e(t('Quick Links')) ?></h4><a href="index.php"><?= e(t('Home')) ?></a><a href="packages.php"><?= e(t('Packages')) ?></a><a href="about.php"><?= e(t('About Us')) ?></a><a href="gallery.php"><?= e(t('Gallery')) ?></a><a href="index.php#contact"><?= e(t('Contact')) ?></a></div>
 <div><h4><?= e(t('Follow Us')) ?></h4><a href="#"><?= e(t('Facebook')) ?></a><a href="#"><?= e(t('Instagram')) ?></a><a href="#"><?= e(t('YouTube')) ?></a></div>
 <div><h4><?= e(t('Contact')) ?></h4><a href="tel:<?= e(preg_replace('/\s/', '', PHONE)) ?>"><?= e(PHONE) ?></a><a href="https://wa.me/<?= e(WHATSAPP) ?>"><?= e(t('WhatsApp Us')) ?></a><a href="mailto:<?= e(EMAIL) ?>"><?= e(EMAIL) ?></a><small><?= e(t('We reply within 24 hours.')) ?></small></div></footer>

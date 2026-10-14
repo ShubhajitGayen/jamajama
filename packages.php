@@ -1,14 +1,16 @@
 <?php require_once __DIR__ . '/inc/bootstrap.php';
 $pdo = db();
-$packages = $pdo->query('SELECT * FROM packages ORDER BY sort_order, id')->fetchAll();
-$pageTitle = t('Our Hajj & Umrah Packages – Jama Jama Tour & Travels');
+$packages = $pdo->query('SELECT * FROM packages ORDER BY sort_order, price')->fetchAll();
+$pageTitle = t('Our Hajj & Umrah Packages – Zam Zam Tour & Travels');
 require __DIR__ . '/inc/header.php'; ?>
 <main class="wrap">
     <h1 class="h"><?= e(t('Our Hajj & Umrah Packages')) ?></h1>
     <p class="muted"><?= e(t('Choose the perfect package for your spiritual journey')) ?></p>
     <div class="grid4"><?php foreach ($packages as $p): ?>
             <article class="card">
-                <div class="img"><?php if ($image = package_image_url($p['image_path'] ?? null)): ?><img src="<?= e($image) ?>" alt="<?= e(localized_text($p, 'name')) ?>" loading="lazy"><?php endif; ?></div>
+                <div class="img"><?php if ($image = package_image_url($p['image_path'] ?? null)): ?><img
+                            src="<?= e($image) ?>" alt="<?= e(localized_text($p, 'name')) ?>" loading="lazy"><?php endif; ?>
+                </div>
                 <h3><?= e(localized_text($p, 'name')) ?></h3>
                 <div class="cf">
                     <ul>

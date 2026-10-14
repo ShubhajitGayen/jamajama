@@ -1,4 +1,4 @@
-# Jama Jama Tour & Travels (PHP + MySQL)
+# Zam Zam Tour & Travels (PHP + MySQL)
 1. Create DB + tables: `mysql -u root -p < schema.sql` (needs MySQL 5.7+/MariaDB 10.2+).
 2. For an existing database, back it up and run the migrations that have not yet been applied. The package-image migration is `mysql --default-character-set=utf8mb4 -u root -p jamajama < migrations/20261013_add_package_image.sql` (run once; it adds nullable `packages.image_path`). Also apply the translations and gallery migrations if needed: `mysql --default-character-set=utf8mb4 -u root -p jamajama < migrations/20261013_add_content_translations.sql` and `mysql --default-character-set=utf8mb4 -u root -p jamajama < migrations/20261013_add_gallery_items.sql`. Do not run a migration if its columns/table already exist.
 3. For local hosting, edit `config.php` with your DB credentials, WhatsApp number, phone, and email. For Render, set database credentials as service environment variables instead.
